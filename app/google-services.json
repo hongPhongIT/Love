@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1001506580484",
+    "firebase_url": "https://love-bfd2c.firebaseio.com",
+    "project_id": "love-bfd2c",
+    "storage_bucket": "love-bfd2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001506580484:android:360a619077f81311",
+        "android_client_info": {
+          "package_name": "com.pnv.matchmaking.love"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001506580484-1fetm72sb3a2fus5bdjehgoc2d35gavm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pnv.matchmaking.love",
+            "certificate_hash": "6d04c40c9486a548d359a78294f2680dd0217a5e"
+          }
+        },
+        {
+          "client_id": "1001506580484-a6kd6co5dgki3thmk1654jmh2ok2dvke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALspONZZpox9StLOajH8qYSb8p-dUWwdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001506580484-a6kd6co5dgki3thmk1654jmh2ok2dvke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
