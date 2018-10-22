@@ -1,6 +1,7 @@
 package com.pnv.matchmaking.love.chat;
 
 import java.util.Date;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -9,15 +10,11 @@ public class Message {
     private String messageText;
     private String messageUser;
     private long messageTime;
-    public String name;
-    public String email;
 
 
-    public Message(String messageText, String messageUser, String name, String email) {
+    public Message(String messageText, String messageUser) {
         this.messageText = messageText;
         this.messageUser = messageUser;
-        this.name = name;
-        this.email = email;
 
         // Initialize to current time
         messageTime = new Date().getTime();
