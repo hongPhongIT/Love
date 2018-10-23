@@ -7,17 +7,17 @@
     tools:context="com.pnv.matchmaking.love.chat.ChatDetailActivity"
     android:layout_margin="20dp">
 
-    <TextView
-        android:id="@+id/txt_message"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_messages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
+        android:layout_height="400dp" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/wg_sent_message"
+        android:layout_below="@+id/recycler_view_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="400dp">
+        >
 
         <EditText
             android:id="@+id/edit_message"
@@ -28,6 +28,7 @@
 
         <Button
             android:id="@+id/btn_save"
+            android:layout_toRightOf="@+id/edit_message"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@color/colorAccent"
@@ -35,6 +36,6 @@
             android:textStyle="bold"
             android:text="Sent"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
