@@ -57,7 +57,6 @@ public class Message {
         result.put("messageText", messageText);
         result.put("messageUser", messageUser);
         result.put("messageTime", messageTime);
-
         return result;
     }
 }
