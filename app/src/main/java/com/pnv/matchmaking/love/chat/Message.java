@@ -1,5 +1,8 @@
 package com.pnv.matchmaking.love.chat;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +15,7 @@ public class Message {
 
     private String messageText;
     private String messageUser;
-    private long messageTime;
+    private String messageTime;
 
 
     public Message(String messageText, String messageUser) {
@@ -20,7 +23,11 @@ public class Message {
         this.messageUser = messageUser;
 
         // Initialize to current time
-        messageTime = new Date().getTime();
+        Date now = new Date();
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy:HH:mm:SS");
+        String date = DATE_FORMAT.format(now);
+
+        this.messageTime = date;
     }
 
     public Message() {
@@ -47,7 +54,7 @@ public class Message {
         return String.valueOf(messageTime);
     }
 
-    public void setMessageTime(long messageTime) {
+    public void setMessageTime(String messageTime) {
         this.messageTime = messageTime;
     }
 

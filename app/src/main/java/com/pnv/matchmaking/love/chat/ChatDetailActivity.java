@@ -1,6 +1,7 @@
 package com.pnv.matchmaking.love.chat;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,11 +17,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.pnv.matchmaking.love.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ChatDetailActivity extends AppCompatActivity {
 
@@ -48,10 +49,10 @@ public class ChatDetailActivity extends AppCompatActivity {
         recycler_view_messages = (RecyclerView) findViewById(R.id.recycler_view_messages);
 
         RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(ChatDetailActivity.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(false);
+        recycler_view_messages.setLayoutManager(layoutManager);
+        recycler_view_messages.setItemAnimator(new DefaultItemAnimator());
+        recycler_view_messages.setNestedScrollingEnabled(false);
+        recycler_view_messages.setHasFixedSize(false);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -86,10 +87,13 @@ public class ChatDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arr_message.clear();
-                for (DataSnapshot data : dataSnapshot.getChildren()){
-
+                for (final DataSnapshot data : dataSnapshot.getChildren()){
+                   Message message = data.getValue(Message.class);
+                   arr_message.add(message);
                 }
 
+                Collections.reverse(arr_message);
+                recycler_view_messages.setAdapter(customRecyclerAdapterMessage);
             }
 
             @Override
@@ -108,10 +112,8 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
-        Query messages = mFirebaseDatabase.child(messagesNane).child(userName);
-
         customRecyclerAdapterMessage = new CustomRecyclerAdapterMessage(arr_message, this);
-        recyclerView.setAdapter(customRecyclerAdapterMessage);
+
     }
 
 
@@ -119,9 +121,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         String email = userName;
         Message m = new Message(message, email);
-
-        mFirebaseDatabase.child(userName).child(m.getMessageTime()).setValue(m);
+        mFirebaseDatabase.child(userName).child(mFirebaseDatabase.push().getKey()).setValue(m);
 
     }
-
 }

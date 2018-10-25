@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_chat_image"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:src="@drawable/default_avt"
+        app:civ_border_width="3dp"
+        app:civ_border_color="#393535"/>
+
+</LinearLayout>
