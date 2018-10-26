@@ -26,7 +26,6 @@ public class Message {
         Date now = new Date();
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yy:HH:mm:SS");
         String date = DATE_FORMAT.format(now);
-
         this.messageTime = date;
     }
 
@@ -51,7 +50,7 @@ public class Message {
     }
 
     public String getMessageTime() {
-        return String.valueOf(messageTime);
+        return messageTime;
     }
 
     public void setMessageTime(String messageTime) {

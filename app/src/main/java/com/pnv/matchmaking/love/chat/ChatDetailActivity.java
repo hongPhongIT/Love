@@ -1,7 +1,6 @@
 package com.pnv.matchmaking.love.chat;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -33,13 +32,11 @@ public class ChatDetailActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseInstance;
 
 
-    private String messagesNane = "messages";
-    private String userName = "Phong Nguyen";
+    private String messagesName = "messages";
+    private String userName = "Nhi Nguyen";
 
-
-    RecyclerView recyclerView;
     CustomRecyclerAdapterMessage customRecyclerAdapterMessage;
-    ArrayList<Message> arr_message = new ArrayList<>();;
+    ArrayList<Message> arr_message = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +59,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         mFirebaseInstance = FirebaseDatabase.getInstance();
 
-        mFirebaseDatabase = mFirebaseInstance.getReference(messagesNane);
+        mFirebaseDatabase = mFirebaseInstance.getReference(messagesName);
 
         mFirebaseInstance.getReference("app_title").setValue("Realtime Database");
 
