@@ -16,18 +16,21 @@ public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<Recycler
 
     private List<Message> list_messages;
     Context context;
+    LayoutInflater inflater;
 
     public CustomRecyclerAdapterChatList(List<Message> messages, Context context) {
         this.list_messages = messages;
         this.context = context;
+        inflater = LayoutInflater.from(context);
+
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.list_message,parent,false);
-
-        return new RecyclerViewHolder(itemView);
+        View itemView = inflater.inflate(R.layout.list_message, parent, false);
+        RecyclerViewHolder viewHolder = new RecyclerViewHolder(itemView);
+        return viewHolder;
     }
 
     @Override
@@ -39,13 +42,12 @@ public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<Recycler
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
-                if(isLongClick) {
-                    redirect(position);
+                if (isLongClick) {
                     Toast.makeText(context, "Long Click: " + list_messages.get(position), Toast.LENGTH_SHORT).show();
-                }else
-                {
-                    redirect(position);
-                    Toast.makeText(context, " "+ list_messages.get(position), Toast.LENGTH_SHORT).show();
+                } else {
+                    final Intent intent = new Intent(context, ChatDetailActivity.class);
+                    intent.putExtra("chatName", list_messages.get(position).getMessageUser());
+                    context.startActivity(intent);
 
                 }
             }
@@ -57,10 +59,5 @@ public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<Recycler
         return list_messages.size();
     }
 
-    private void redirect(int position){
-        Intent intent = new Intent(this.context, ChatDetailActivity.class);
-        intent.putExtra("chatName",list_messages.get(position).getMessageUser());
-        this.context.startActivity(intent);
-    }
 }
 
