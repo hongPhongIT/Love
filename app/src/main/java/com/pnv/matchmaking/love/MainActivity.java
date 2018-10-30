@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        List<Country> image_details = getListData();
+        List<Friend> image_details = getListData();
         final ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CustomListAdapter(this, image_details));
 
@@ -28,22 +28,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 Object o = listView.getItemAtPosition(position);
-                Country country = (Country) o;
-                Toast.makeText(MainActivity.this, "Selected :" + " " + country, Toast.LENGTH_LONG).show();
+                Friend friend = (Friend) o;
+                Toast.makeText(MainActivity.this, "Selected :" + " " + friend, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private  List<Country> getListData() {
-        List<Country> list = new ArrayList<Country>();
-        Country vietnam = new Country("Vietnam", "vn", 98000000);
-        Country usa = new Country("United States", "us", 320000000);
-        Country russia = new Country("Russia", "ru", 142000000);
+    private  List<Friend> getListData() {
+        List<Friend> list = new ArrayList<Friend>();
+        Friend friend_1 = new Friend("Long Seven", "a1", "I Love You");
+        Friend friend_2 = new Friend("Lionel Messi", "a2", "Will you married with me");
+        Friend friend_3 = new Friend("Tony ja", "a3", "I wanna love you");
+        Friend friend_4 = new Friend("SonTung_MTP","a4","I Love U");
+        Friend friend_5 = new Friend("Super Spiderman","a5","I Love U");
+        Friend friend_6 = new Friend("Super Man","a6","I Love U");
 
-
-        list.add(vietnam);
-        list.add(usa);
-        list.add(russia);
+        list.add(friend_1);
+        list.add(friend_2);
+        list.add(friend_3);
+        list.add(friend_4);
+        list.add(friend_5);
+        list.add(friend_6);
 
         return list;
     }

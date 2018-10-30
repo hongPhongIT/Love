@@ -12,11 +12,11 @@ import java.util.List;
 
 public class CustomListAdapter  extends BaseAdapter {
 
-    private List<Country> listData;
+    private List<Friend> listData;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public CustomListAdapter(Context aContext,  List<Country> listData) {
+    public CustomListAdapter(Context aContext,  List<Friend> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -42,21 +42,21 @@ public class CustomListAdapter  extends BaseAdapter {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.list_item_layout, null);
             holder = new ViewHolder();
-            holder.flagView = (ImageView) convertView.findViewById(R.id.imageView_flag);
-            holder.countryNameView = (TextView) convertView.findViewById(R.id.textView_countryName);
-            holder.populationView = (TextView) convertView.findViewById(R.id.textView_population);
+            holder.avatarView = (ImageView) convertView.findViewById(R.id.imageView_friend);
+            holder.friendNameView = (TextView) convertView.findViewById(R.id.textView_friendName);
+            holder.quoteView = (TextView) convertView.findViewById(R.id.textView_quote);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Country country = this.listData.get(position);
-        holder.countryNameView.setText(country.getCountryName());
-        holder.populationView.setText("Population: " + country.getPopulation());
+        Friend friend = this.listData.get(position);
+        holder.friendNameView.setText(friend.getFriendName());
+        holder.quoteView.setText("Quote: " + friend.getQuote());
 
-        int imageId = this.getMipmapResIdByName(country.getFlagName());
+        int imageId = this.getMipmapResIdByName(friend.getAvatarName());
 
-        holder.flagView.setImageResource(imageId);
+        holder.avatarView.setImageResource(imageId);
 
         return convertView;
     }
@@ -72,9 +72,9 @@ public class CustomListAdapter  extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView flagView;
-        TextView countryNameView;
-        TextView populationView;
+        ImageView avatarView;
+        TextView friendNameView;
+        TextView quoteView;
     }
 
 }
