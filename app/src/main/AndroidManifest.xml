@@ -22,6 +22,7 @@
         <activity android:name=".profile.OtherUserProfile" />
         <activity android:name=".profile.Profile" />
         <activity android:name=".Register" />
+        <activity android:name=".profile.ForgotPassword"></activity>
     </application>
 
 </manifest>

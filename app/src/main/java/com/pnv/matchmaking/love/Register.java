@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,14 +22,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.pnv.matchmaking.love.profile.Profile;
+import com.pnv.matchmaking.love.profile.User;
+
+import java.util.Calendar;
 
 public class Register extends AppCompatActivity {
 
     private EditText inputUsername, inputEmail, inputPassword, inputBirthYear;
     private Button btnRegister;
+    RadioGroup radioGroup;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
     private DatabaseReference reference;
+    String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,16 @@ public class Register extends AppCompatActivity {
         inputBirthYear = (EditText) findViewById(R.id.birth_year);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        radioGroup = (RadioGroup) findViewById(R.id.gender);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb=(RadioButton)findViewById(checkedId);
+                gender = rb.getText().toString();
+
+            }
+        });
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,6 +71,10 @@ public class Register extends AppCompatActivity {
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
                 String birthYear = inputBirthYear.getText().toString().trim();
+
+
+                Calendar calendar = Calendar.getInstance();
+                int currentYear = calendar.getInstance().get(Calendar.YEAR);
 
                 if (TextUtils.isEmpty(username)) {
                     Toast.makeText(getApplicationContext(), "Username is required!", Toast.LENGTH_SHORT).show();
@@ -63,6 +85,11 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Email is required!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                       Toast.makeText(getApplicationContext(), "Invalid email format!", Toast.LENGTH_SHORT).show();
+                       return;
+                   }
 
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
@@ -78,6 +105,15 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Birth year is required!", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                else {
+                    int iYear = Integer.parseInt(birthYear);
+                    if (iYear < (currentYear - 100)|| iYear > (currentYear - 6)){
+                        Toast.makeText(getApplicationContext(), "Please enter correct your birth year", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+
 
 
                 progressBar.setVisibility(View.VISIBLE);
@@ -86,16 +122,12 @@ public class Register extends AppCompatActivity {
                         .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                Toast.makeText(Register.this, "Register succcessful", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    Toast.makeText(Register.this, "Register succcessful", Toast.LENGTH_SHORT).show();
                                     onAuthSuccess(task.getResult().getUser());
                                     startActivity(new Intent(Register.this, Profile.class));
                                     finish();
@@ -105,7 +137,7 @@ public class Register extends AppCompatActivity {
             }
 
             private void onAuthSuccess(FirebaseUser user) {
-                createUser(user.getUid(), inputUsername.getText().toString(), user.getEmail(), "male", inputBirthYear.getText().toString());
+                createUser(user.getUid(), inputUsername.getText().toString(), user.getEmail(), gender, inputBirthYear.getText().toString());
             }
 
             private void createUser(String userId, String username, String email, String gender, String birthYear) {

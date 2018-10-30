@@ -2,14 +2,12 @@ package com.pnv.matchmaking.love.profile;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pnv.matchmaking.love.Login;
 import com.pnv.matchmaking.love.R;
-import com.pnv.matchmaking.love.User;
+
+import java.util.Calendar;
 
 public class Profile extends AppCompatActivity {
 
@@ -33,20 +32,17 @@ public class Profile extends AppCompatActivity {
 
     DatabaseReference userReference;
     FirebaseAuth.AuthStateListener authListener;
+    ValueEventListener userListener;
 
     TextView username, birthYear;
     Button btn_logout;
-    ValueEventListener userListener;
-
+    RelativeLayout changePassword;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-
-
         auth = FirebaseAuth.getInstance();
 
         userKey = auth.getCurrentUser().getUid();
@@ -58,8 +54,11 @@ public class Profile extends AppCompatActivity {
         username = (TextView) findViewById(R.id.text_profile_name);
         birthYear = (TextView) findViewById(R.id.text_birth_year);
 
+        changePassword = (RelativeLayout) findViewById(R.id.layout_change_password);
         btn_logout = (Button) findViewById(R.id.logout);
-        //get user key from intent
+
+        Calendar calendar = Calendar.getInstance();
+        final int currentYear = calendar.getInstance().get(Calendar.YEAR);
 
 
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -75,13 +74,16 @@ public class Profile extends AppCompatActivity {
 
         // Add value event listener to the user
         userListener = new ValueEventListener() {
-            @Override
+
+           @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 // [START_EXCLUDE]
                 if(user!=null){
+                    int iBirthYear = Integer.parseInt(user.birthYear);
+                    int age = currentYear - iBirthYear;
                     username.setText(user.username);
-                    birthYear.setText("Birth year: " + user.birthYear);
+                    birthYear.setText("Age: " + age);
                 }
                 // [END_EXCLUDE]
             }
@@ -104,24 +106,14 @@ public class Profile extends AppCompatActivity {
                 auth.signOut();
             }
         }));
+
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.action_bar, menu);
-//
-//        logout = (MenuItem) findViewById(R.id.logout);
-//        logout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                auth.signOut();
-//                return true;
-//            }
-//        });
-//        return true;
-//    }
-
 
 
     @Override

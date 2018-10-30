@@ -1,4 +1,4 @@
-package com.pnv.matchmaking.love;
+package com.pnv.matchmaking.love.profile;
 
 public class User {
     public String username, email, gender, birthYear;
