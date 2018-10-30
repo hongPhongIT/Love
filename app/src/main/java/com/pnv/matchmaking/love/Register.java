@@ -109,7 +109,7 @@ public class Register extends AppCompatActivity {
             }
 
             private void createUser(String userId, String username, String email, String gender, String birthYear) {
-                User user = new User(username, email, gender, birthYear);
+                User user = new User(username, email, gender, birthYear, userId);
                 reference.child("users").child(userId).setValue(user);
             }
         });

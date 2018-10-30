@@ -1,6 +1,7 @@
 package com.pnv.matchmaking.love;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class Login extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
+            saveProfile();
             startActivity(new Intent(Login.this, Profile.class));
             finish();
         }
@@ -85,6 +87,7 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(Login.this, "Authentication failed, check your email and password or sign up", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
+                                    saveProfile();
                                     Intent intent = new Intent(Login.this, Profile.class);
                                     startActivity(intent);
                                     finish();
@@ -107,6 +110,17 @@ public class Login extends AppCompatActivity {
 
 
 
+    }
+
+    private void saveProfile(){
+        String email = auth.getCurrentUser().getEmail();
+        SharedPreferences sharedPreferences= this.getSharedPreferences("saveDataLogin", MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("email", email);
+
+        editor.apply();
     }
 
 

@@ -1,5 +1,7 @@
 package com.pnv.matchmaking.love.chat;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,13 +12,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.pnv.matchmaking.love.Login;
 import com.pnv.matchmaking.love.R;
 
 import java.util.ArrayList;
@@ -30,10 +36,11 @@ public class ChatDetailActivity extends AppCompatActivity {
     private Button btnSave;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
+    private FirebaseAuth mFirebaseAuth;
 
 
     private String messagesName = "messages";
-    private String userName = "Nhi Nguyen";
+    private String userEmail;
 
     CustomRecyclerAdapterMessage customRecyclerAdapterMessage;
     ArrayList<Message> arr_message = new ArrayList<>();
@@ -45,7 +52,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
         recycler_view_messages = (RecyclerView) findViewById(R.id.recycler_view_messages);
 
-        RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(ChatDetailActivity.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ChatDetailActivity.this);
         recycler_view_messages.setLayoutManager(layoutManager);
         recycler_view_messages.setItemAnimator(new DefaultItemAnimator());
         recycler_view_messages.setNestedScrollingEnabled(false);
@@ -62,6 +69,11 @@ public class ChatDetailActivity extends AppCompatActivity {
         mFirebaseDatabase = mFirebaseInstance.getReference(messagesName);
 
         mFirebaseInstance.getReference("app_title").setValue("Realtime Database");
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        final String  currentUserKey = mFirebaseAuth.getCurrentUser().getUid();
+        userEmail = mFirebaseAuth.getCurrentUser().getEmail();
 
         mFirebaseInstance.getReference("app_title").addValueEventListener(new ValueEventListener() {
             @Override
@@ -80,13 +92,13 @@ public class ChatDetailActivity extends AppCompatActivity {
             }
         });
 
-        mFirebaseDatabase.child(userName).addValueEventListener(new ValueEventListener() {
+        mFirebaseDatabase.child(getKeyMessage()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arr_message.clear();
-                for (final DataSnapshot data : dataSnapshot.getChildren()){
-                   Message message = data.getValue(Message.class);
-                   arr_message.add(message);
+                for (final DataSnapshot data : dataSnapshot.getChildren()) {
+                    Message message = data.getValue(Message.class);
+                    arr_message.add(message);
                 }
 
                 Collections.reverse(arr_message);
@@ -105,7 +117,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String message = inputMessage.getText().toString();
-                createMessage(message);
+                createMessage(message, currentUserKey);
             }
         });
 
@@ -114,11 +126,19 @@ public class ChatDetailActivity extends AppCompatActivity {
     }
 
 
-    private void createMessage(String message) {
-
-        String email = userName;
-        Message m = new Message(message, email);
-        mFirebaseDatabase.child(userName).child(mFirebaseDatabase.push().getKey()).setValue(m);
-
+    private void createMessage(String message, String keyMessage) {
+        if (keyMessage != null) {
+            String email = userEmail;
+            Message m = new Message(message, email);
+            mFirebaseDatabase.child(keyMessage).child(mFirebaseDatabase.push().getKey()).setValue(m);
+        } else {
+        }
     }
+
+    private String getKeyMessage(){
+        Bundle extras = this.getIntent().getExtras();
+        String keyMessage = extras.getString("chatKey");
+        return keyMessage;
+    }
+
 }
