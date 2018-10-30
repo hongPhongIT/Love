@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="vertical">
-
     <RelativeLayout
         android:id="@+id/background_cover_photo"
         android:layout_width="match_parent"
@@ -46,16 +45,16 @@
             android:layout_height="40dp"
             android:textAlignment="center"
             android:textColor="#270566"
-            android:text="Anonymous"
             android:textSize="25dp"
             android:textStyle="bold"
+            android:text="Đỗ Phú Khánh"
             />
         <TextView
-            android:id="@+id/text_birth_year"
+            android:id="@+id/text_edit_profile_name"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
-            android:text="Birth year: ----"
+            android:text="(Aoko)"
             android:textAlignment="center"
             android:textColor="#270566"
             android:textSize="20sp" />
@@ -78,55 +77,55 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/background_edit_profile"
+                android:id="@+id/background_add_friend"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/icon_edit_profile"
+                    android:id="@+id/icon_add_friend"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_edit_black_24dp" />
+                    android:src="@drawable/ic_person_add_black_24dp" />
 
                 <TextView
                     android:id="@+id/text_edit_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/icon_edit_profile"
-                    android:text="Edit Profile"
+                    android:layout_below="@id/icon_add_friend"
+                    android:text="Add Friend"
                     android:textAlignment="center"
                     android:textSize="11dp" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/background_view_list_activity_history"
+                android:id="@+id/background_message"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="1">
 
                 <ImageView
-                    android:id="@+id/image_view_list_activity_history"
+                    android:id="@+id/image_message"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/ic_history_black_24dp" />
+                    android:src="@drawable/ic_message_black_24dp" />
 
                 <TextView
-                    android:id="@+id/txt_view_list_activity_history"
+                    android:id="@+id/txt_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/image_view_list_activity_history"
-                    android:text="Activity Log"
+                    android:layout_below="@id/image_message"
+                    android:text="Mesage
+"
                     android:textAlignment="center"
                     android:textSize="11dp" />
 
             </RelativeLayout>
-
             <RelativeLayout
                 android:id="@+id/background_more"
                 android:layout_width="70dp"
@@ -202,10 +201,4 @@
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logout"
-        android:text="Log out"/>
-
 </RelativeLayout>
