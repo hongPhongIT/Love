@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,17 +36,24 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth.AuthStateListener authListener;
     ValueEventListener userListener;
 
+    Toolbar toolbar;
     TextView username, birthYear;
-    Button btn_logout;
-    RelativeLayout changePassword;
+    RelativeLayout changePassword, editProfile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        auth = FirebaseAuth.getInstance();
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            startActivity(new Intent(Profile.this, Login.class));
+            finish();
+        }
         userKey = auth.getCurrentUser().getUid();
         if (userKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA_USER_KEY");
@@ -54,8 +63,8 @@ public class Profile extends AppCompatActivity {
         username = (TextView) findViewById(R.id.text_profile_name);
         birthYear = (TextView) findViewById(R.id.text_birth_year);
 
+        editProfile = (RelativeLayout) findViewById(R.id.layout_edit_profile);
         changePassword = (RelativeLayout) findViewById(R.id.layout_change_password);
-        btn_logout = (Button) findViewById(R.id.logout);
 
         Calendar calendar = Calendar.getInstance();
         final int currentYear = calendar.getInstance().get(Calendar.YEAR);
@@ -99,18 +108,17 @@ public class Profile extends AppCompatActivity {
             }
         };
 
-
-        btn_logout.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-            }
-        }));
-
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Profile.this, EditProfile.class));
             }
         });
     }
@@ -130,6 +138,29 @@ public class Profile extends AppCompatActivity {
             auth.removeAuthStateListener(authListener);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.action_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.logout) {
+            auth.signOut();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

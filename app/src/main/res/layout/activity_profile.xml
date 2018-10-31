@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
     android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#3744da"
+        android:elevation="4dp"
+        style="@style/AppTheme.NoActionBar"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
     <RelativeLayout
         android:id="@+id/background_cover_photo"
@@ -73,13 +86,13 @@
             android:id="@+id/background_edit_infomation_profile"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
             <RelativeLayout
-                android:id="@+id/background_edit_profile"
+                android:id="@+id/layout_edit_profile"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_weight="1">
@@ -107,7 +120,7 @@
                 android:id="@+id/layout_change_password"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_weight="2">
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/image_view_change_password"
@@ -203,10 +216,6 @@
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logout"
-        android:text="Log out"/>
 
 </RelativeLayout>
+</ScrollView>
