@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.pnv.matchmaking.love.Login;
 import com.pnv.matchmaking.love.R;
 import com.pnv.matchmaking.love.User;
+import com.pnv.matchmaking.love.chat.AllUser;
+import com.pnv.matchmaking.love.chat.ChatListActivity;
 
 public class Profile extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class Profile extends AppCompatActivity {
     DatabaseReference userReference;
     FirebaseAuth.AuthStateListener authListener;
 
-    TextView username, birthYear;
+    TextView username, birthYear, txt_friend, txt_message;
     Button btn_logout;
     ValueEventListener userListener;
 
@@ -59,6 +61,8 @@ public class Profile extends AppCompatActivity {
         birthYear = (TextView) findViewById(R.id.text_birth_year);
 
         btn_logout = (Button) findViewById(R.id.logout);
+        txt_friend = (TextView) findViewById(R.id.txt_friend);
+        txt_message = (TextView) findViewById(R.id.txt_message);
         //get user key from intent
 
 
@@ -96,6 +100,22 @@ public class Profile extends AppCompatActivity {
                 // [END_EXCLUDE]
             }
         };
+
+        txt_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, AllUser.class);
+                Profile.this.startActivity(intent);
+            }
+        });
+
+        txt_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, ChatListActivity.class);
+                Profile.this.startActivity(intent);
+            }
+        });
 
 
         btn_logout.setOnClickListener((new View.OnClickListener() {

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +28,7 @@ public class ChatListActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
     private RecyclerView recycler_view_chat_list;
-    private FirebaseUser mFirebaseUser;
+    private FirebaseAuth mFirebaseAuth;
 
 
     private String messagesName = "messages";
@@ -35,6 +36,7 @@ public class ChatListActivity extends AppCompatActivity {
     CustomRecyclerAdapterChatList customRecyclerAdapterChatList;
 
     ArrayList<Message> arr_list_message = new ArrayList<>();
+    ArrayList<String> arr_key =new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,12 +55,21 @@ public class ChatListActivity extends AppCompatActivity {
 
         mFirebaseDatabase = mFirebaseInstance.getReference(messagesName);
 
-        mFirebaseDatabase.child(mFirebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        final String currentUserKey = mFirebaseAuth.getCurrentUser().getUid();
+
+        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 arr_list_message.clear();
+                String keyMessage = "";
                 for (final DataSnapshot data : dataSnapshot.getChildren()) {
-                    String key = data.getKey();
+                    final String key = data.getKey();
+                    int index = key.lastIndexOf("MAP");
+                    final String firstKey = key.substring(0, index);
+                    int length = key.length();
+                    final String lastKey = key.substring(index + 3, length);
+
                     mFirebaseDatabase.child(key).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,10 +80,12 @@ public class ChatListActivity extends AppCompatActivity {
                                 Message message = d.getValue(Message.class);
                                 arr_message.add(message);
                             }
-
-                            arr_list_message.add(arr_message.get(arr_message.size() - 1));
-                            arr_message.clear();
-                            recycler_view_chat_list.setAdapter(customRecyclerAdapterChatList);
+                            if (firstKey.equals(currentUserKey) || lastKey.equals(currentUserKey)) {
+                                arr_list_message.add(arr_message.get(arr_message.size() - 1));
+                                arr_key.add(key);
+                                arr_message.clear();
+                                recycler_view_chat_list.setAdapter(customRecyclerAdapterChatList);
+                            }
                         }
 
                         @Override
@@ -91,7 +104,7 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
 
-        customRecyclerAdapterChatList = new CustomRecyclerAdapterChatList(arr_list_message, this);
+        customRecyclerAdapterChatList = new CustomRecyclerAdapterChatList(arr_list_message, this, arr_key);
 
     }
 

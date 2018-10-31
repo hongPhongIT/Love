@@ -117,7 +117,7 @@ public class ChatDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String message = inputMessage.getText().toString();
-                createMessage(message, currentUserKey);
+                createMessage(message, getKeyMessage());
             }
         });
 

@@ -15,12 +15,14 @@ import java.util.List;
 public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private List<Message> list_messages;
+    private List<String> keyMessage;
     Context context;
     LayoutInflater inflater;
 
-    public CustomRecyclerAdapterChatList(List<Message> messages, Context context) {
+    public CustomRecyclerAdapterChatList(List<Message> messages, Context context, List<String> keyMessage) {
         this.list_messages = messages;
         this.context = context;
+        this.keyMessage = keyMessage;
         inflater = LayoutInflater.from(context);
 
     }
@@ -46,7 +48,7 @@ public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<Recycler
                     Toast.makeText(context, "Long Click: " + list_messages.get(position), Toast.LENGTH_SHORT).show();
                 } else {
                     final Intent intent = new Intent(context, ChatDetailActivity.class);
-                    intent.putExtra("chatName", list_messages.get(position).getMessageUser());
+                    intent.putExtra("chatKey", keyMessage.get(position).toString());
                     context.startActivity(intent);
 
                 }

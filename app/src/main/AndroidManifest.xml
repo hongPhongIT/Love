@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Login"></activity>
 
-        <activity android:name=".chat.AllUser">
+        <activity android:name=".profile.Profile">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +22,9 @@
         </activity>
         <activity android:name=".MainActivity"></activity>
         <activity android:name=".chat.ChatDetailActivity"></activity>
+        <activity android:name=".chat.AllUser" ></activity>
+        <activity android:name=".chat.ChatListActivity"></activity>
         <activity android:name=".profile.OtherUserProfile" />
-        <activity android:name=".profile.Profile" />
         <activity android:name=".Register" />
     </application>
 
