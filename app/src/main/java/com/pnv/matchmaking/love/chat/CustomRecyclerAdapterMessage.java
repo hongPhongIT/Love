@@ -47,7 +47,7 @@ public class CustomRecyclerAdapterMessage extends RecyclerView.Adapter<CustomRec
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         holder.txt_message.setText(mMessage.get(position).getMessageText());
-        holder.txt_time.setText(mMessage.get(position).getMessageTime());
+        holder.txt_time.setText(mMessage.get(position).getMessageUser());
     }
 
     @Override

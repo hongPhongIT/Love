@@ -37,7 +37,6 @@ public class CustomRecyclerAdapterChatList extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        String a = list_messages.get(position).getMessageUser();
         holder.text_view_user_name.setText(list_messages.get(position).getMessageUser());
         holder.text_view_content.setText(list_messages.get(position).getMessageText());
         holder.text_view_time.setText(list_messages.get(position).getMessageTime());
