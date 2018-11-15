@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -118,6 +119,7 @@ public class ChatDetailActivity extends AppCompatActivity {
 
                 String message = inputMessage.getText().toString();
                 createMessage(message, getKeyMessage());
+                inputMessage.setText("");
             }
         });
 
